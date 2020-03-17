@@ -6,9 +6,9 @@
 # backwards compatibility). Please don't change it unless you know what
 # you're doing.
 
-auto = ENV['AUTO_START_SWARM'] || false
+auto = ENV['AUTO_START_SWARM'] || true
 # Increase numworkers if you want more than 3 nodes
-numworkers = 2
+numworkers = 1
 
 # VirtualBox settings
 # Increase vmmemory if you want more than 512mb memory in the vm's
@@ -47,6 +47,7 @@ Vagrant.require_version ">= 1.8.4"
 
 # Check if the necessary plugins are installed
 if not http_proxy.to_s.strip.empty?
+  # plugin that configures VM to use proxies.
 	required_plugins = %w( vagrant-proxyconf )
 	plugins_to_install = required_plugins.select { |plugin| not Vagrant.has_plugin? plugin }
 	if not plugins_to_install.empty?
@@ -66,9 +67,10 @@ Vagrant.configure("2") do |config|
     end
     
     config.vm.define "manager" do |i|
-      i.vm.box = "ubuntu/trusty64"
+      i.vm.box = "ubuntu/bionic64"
       i.vm.hostname = "manager"
       i.vm.network "private_network", ip: "#{manager_ip}"
+      i.vm.network "forwarded_port", guest:8080, host: 8080
       # Proxy
       if not http_proxy.to_s.strip.empty?
         i.proxy.http     = http_proxy
@@ -88,7 +90,7 @@ Vagrant.configure("2") do |config|
 
   instances.each do |instance| 
     config.vm.define instance[:name] do |i|
-      i.vm.box = "ubuntu/trusty64"
+      i.vm.box = "ubuntu/bionic64"
       i.vm.hostname = instance[:name]
       i.vm.network "private_network", ip: "#{instance[:ip]}"
       # Proxy
