@@ -7,6 +7,11 @@
 # you're doing.
 
 auto = ENV['AUTO_START_SWARM'] || true
+# TODO make this support secure connection.
+guest_docker_port = ENV['MANAGER_DOCKER_PORT'] || 2375 
+forward_docker_port = true
+host_docker_port = ENV['DOCKER_PORT'] || 2375 
+
 # Increase numworkers if you want more than 3 nodes
 numworkers = 1
 
@@ -70,7 +75,9 @@ Vagrant.configure("2") do |config|
       i.vm.box = "ubuntu/bionic64"
       i.vm.hostname = "manager"
       i.vm.network "private_network", ip: "#{manager_ip}"
-      i.vm.network "forwarded_port", guest:8080, host: 8080
+      if forward_docker_port
+        i.vm.network "forwarded_port", guest: guest_docker_port, host: guest_docker_port
+      end
       # Proxy
       if not http_proxy.to_s.strip.empty?
         i.proxy.http     = http_proxy
@@ -78,6 +85,9 @@ Vagrant.configure("2") do |config|
         i.proxy.no_proxy = no_proxy
       end
       i.vm.provision "shell", path: "./provision.sh"
+      if forward_docker_port
+        i.vm.provision "shell", path: "./provision_remote.sh", privileged: true, env: {"DOCKER_PORT" => "#{guest_docker_port}"}
+      end
       if File.file?("./hosts") 
         i.vm.provision "file", source: "hosts", destination: "/tmp/hosts"
         i.vm.provision "shell", inline: "cat /tmp/hosts >> /etc/hosts", privileged: true
