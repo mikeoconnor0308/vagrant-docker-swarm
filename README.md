@@ -1,11 +1,11 @@
 # Docker Swarm Vagrant
 
-This is a simple Vagrantfile which can be used to spin few nodes with Docker 1.12+ installed. You
-can play with Docker Swarm on it. Boxes are Ubuntu Trusty amd64. 
+This is a Vagrantfile which can be used to spin few nodes with Docker installed. You
+can play with Docker Swarm on it. Boxes are Ubuntu Bionic amd64. 
 
 # Docker Swarm
 
-Docker Swarm is a Docker clustering solution, it turns multiple physical (or virtual) hosts into a one cluster, which practically behaves as a single Docker host. Swarm additionally gives you tools and mechiasms to easily scale your containers and create managed services with automatic load balancing to the exposed ports. 
+Docker Swarm is a Docker clustering solution, it turns multiple physical (or virtual) hosts into one cluster. Swarm additionally gives you tools and mechanisms to easily scale your containers and create managed services with automatic load balancing to the exposed ports. 
 
 Swarm uses [Raft Consensus Algortihm](http://thesecretlivesofdata.com/raft/) to manage the cluster state. Swarm can tolerate `(N-1)/2` failures and needs `(N/2)+1` nodes to agree on values. 
 

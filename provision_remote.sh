@@ -1,4 +1,4 @@
-# Configures docker to expose it's API on the provide port. TODO make secure...
+# Configures docker to expose it's API on the provide port. 
 sudo mkdir -p /etc/systemd/system/docker.service.d
 sudo bash -c 'cat > /etc/systemd/system/docker.service.d/startup_options.conf' << EOF
 # /etc/systemd/system/docker.service.d/override.conf
