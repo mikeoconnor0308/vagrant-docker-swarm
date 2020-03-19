@@ -1,0 +1,16 @@
+---
+- name: Join swarm
+  hosts: workers
+  become: true
+
+  roles:
+    - role: nickjj.docker
+      tags: ["docker"]
+      
+  tasks:
+    - name: Join swarm as a worker
+      docker_swarm:
+        state: join
+        advertise_addr: {{ worker_ip }}
+        join_token: {{ hostvars['manager']['swarm_info']['swarm_facts']['JoinTokens']['Worker'] }}
+        remote_addrs: [ {{ manager_ip }}:2377' ]

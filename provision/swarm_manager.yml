@@ -1,0 +1,22 @@
+---
+- name: initialise docker swarm
+  hosts: manager
+  become: true
+  vars: 
+    docker_port: 2375
+    docker__daemon_flags:
+      - "-H tcp://0.0.0.0:{{ docker_port }}"
+
+  roles:
+    - role: nickjj.docker
+      tags: ["docker"]
+  
+  tasks:
+    - name: print vars
+      debug: 
+       msg: "{{ docker_port }} {{ advertise_address }}"
+    - name: Init a new swarm
+      docker_swarm:
+        advertise_addr: "{{ advertise_address }}"
+        state: present
+        register: swarm_info

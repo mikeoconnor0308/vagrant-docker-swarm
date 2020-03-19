@@ -1,0 +1,13 @@
+---
+- name: docker
+  hosts: all
+  become: true
+
+  vars: 
+    docker_port: 2375
+    docker__daemon_flags:
+      - "-H tcp://0.0.0.0:{{ docker_port }}"
+
+  roles:
+    - role: nickjj.docker
+      tags: ["docker"]
