@@ -1,0 +1,35 @@
+---
+- name: Initialise Docker
+  hosts: all
+  become: true
+
+  vars:
+  - docker_port: 2375
+  - docker__daemon_flags:
+    - "-H unix:///var/run/docker.sock"
+    - "-H tcp://0.0.0.0:{{ docker_port }}"
+
+  roles:
+    - role: nickjj.docker
+      tags: ["docker"]
+
+- name: Initialise docker swarm
+  hosts: manager
+  become: true
+  vars: 
+  - advertise_address: "{{ ansible_enp0s8.ipv4.address }}"
+
+
+  tasks:
+    - name: Install apt packages
+      apt:
+        pkg:
+          - python-pip
+    - name: Install docker python package
+      pip:
+        name:
+          - docker
+    - name: Initialise a new swarm
+      docker_swarm:
+        advertise_addr: "{{ advertise_address }}"
+        state: present

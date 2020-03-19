@@ -1,0 +1,6 @@
+
+.vagrant/
+
+provision/roles/
+
+tmp/
