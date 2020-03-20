@@ -1,6 +1,6 @@
 # Docker Swarm Vagrant
 
-This is a Vagrantfile and ansibe playbook for spinning up a docker swarm. Based on [vagrant-docker-swarm](https://github.com/tdi/vagrant-docker-swarm) by Dariusz Dwornikowski, modified to use ansible and expose API over TCP.
+This is a Vagrantfile and ansible playbook for spinning up a docker swarm. Based on [vagrant-docker-swarm](https://github.com/tdi/vagrant-docker-swarm) by Dariusz Dwornikowski, modified to use ansible and expose API over TCP. A registry service is also created so you can host your own containers on the swarm.
 
 # Customize
 
@@ -48,7 +48,7 @@ The API is portforwarded by default on 2375, so you can control it from the host
 
 ```
 curl localhost:2375/services
-[]
+[{"ID":"1jep4vx9stpoddvn6rzcg8s93","Version":{"Index":18},"CreatedAt":"2020-03-20T12:47:37.231297551Z","UpdatedAt":"2020-03-20T12:47:37.308790008Z","Spec":{"Name":"registry","Labels":{},"TaskTemplate":{"ContainerSpec":{"Image":"registry:2@sha256:7d081088e4bfd632a88e3f3bcd9e007ef44a796fddfe3261407a3f9f04abe1e7","Init":false,"DNSConfig":{},"Isolation":"default"},"Resources":{"Limits":{},"Reservations":{}},"Placement":{"Platforms":[{"Architecture":"amd64","OS":"linux"},{"OS":"linux"},{"Architecture":"arm64","OS":"linux"}]},"ForceUpdate":0,"Runtime":"container"},"Mode":{"Replicated":{"Replicas":1}},"EndpointSpec":{"Mode":"vip","Ports":[{"Protocol":"tcp","TargetPort":5000,"PublishedPort":5000,"PublishMode":"ingress"}]}},"Endpoint":{"Spec":{"Mode":"vip","Ports":[{"Protocol":"tcp","TargetPort":5000,"PublishedPort":5000,"PublishMode":"ingress"}]},"Ports":[{"Protocol":"tcp","TargetPort":5000,"PublishedPort":5000,"PublishMode":"ingress"}],"VirtualIPs":[{"NetworkID":"xsf859c182q1ujr4gxjjnay0c","Addr":"10.0.0.3/24"}]}}]
 ```
 
-There are no services running, as expected. You can log in from the python API and start spinning things up! 
+There is just one service running, the registry service, as expected. You can log in from the python API and start spinning things up! 
