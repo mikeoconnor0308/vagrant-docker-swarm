@@ -17,6 +17,8 @@ numcpu = 1
 # TODO make this support secure connection.
 guest_docker_port = ENV['MANAGER_DOCKER_PORT'] || 2375 
 host_docker_port = ENV['DOCKER_PORT'] || 2375 
+# TODO the registry needs locking down.
+registry_port = ENV['DOCKER_REGISTRY_PORT'] || 5000
 
 # Vagrant version requirement
 Vagrant.require_version ">= 1.8.4"
@@ -59,6 +61,7 @@ Vagrant.configure("2") do |config|
       manager.vm.hostname = "manager"
       manager.vm.network "private_network", ip: "#{manager_ip}"
       manager.vm.network "forwarded_port", guest: guest_docker_port, host: host_docker_port
+      manager.vm.network "forwarded_port", guest: 5000, host: registry_port
 
       if File.file?("./hosts") 
         manager.vm.provision "file", source: "./tmp/hosts", destination: "/tmp/hosts"
