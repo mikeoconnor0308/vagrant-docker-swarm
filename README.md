@@ -1,6 +1,6 @@
 # Docker Swarm Vagrant
 
-This is a Vagrantfile which can be used to spin few nodes with Docker installed and connected as a swarm. Based on [vagrant-docker-swarm](https://github.com/tdi/vagrant-docker-swarm) by Dariusz Dwornikowski, modified to use ansible and expose API over TCP.
+This is a Vagrantfile and ansibe playbook for spinning up a docker swarm. Based on [vagrant-docker-swarm](https://github.com/tdi/vagrant-docker-swarm) by Dariusz Dwornikowski, modified to use ansible and expose API over TCP.
 
 # Customize
 
